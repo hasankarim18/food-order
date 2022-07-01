@@ -20,6 +20,7 @@ const MealItem = (props) => {
             price: props.price
         })
     }
+    // commit 145
 
     return (
         <li className={classes.meal} >
