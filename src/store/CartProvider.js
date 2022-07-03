@@ -10,7 +10,6 @@ const cartReducer = (state, action) => {
 
     switch (action.type) {
         case 'ADD':
-
             const updatedTotalAmount = state.totalAmount + action.item.price * action.item.amount
             const existingCartIemIndex = state.items.findIndex(item => item.id === action.item.id)
 
@@ -34,6 +33,28 @@ const cartReducer = (state, action) => {
                 items: updatedItems,
                 totalAmount: updatedTotalAmount
             }
+        case 'REMOVE':
+            const RemoveExistingCartIemIndex = state.items.findIndex(item => item.id === action.id)
+            const RemoveExistingItem = state.items[RemoveExistingCartIemIndex]
+            // console.log(RemoveExistingItem)
+            const RemoveUpdatedTotalAmount = state.totalAmount - RemoveExistingItem.price
+
+            let RemoveUpdatedItems;
+
+            if (RemoveExistingItem.amount === 1) {
+                // we want to remove the item
+                RemoveUpdatedItems = state.items.filter(item => item.id !== action.id)
+            } else {
+                // we want to decrease the amount
+                const updatedItem = { ...RemoveExistingItem, amount: RemoveExistingItem.amount - 1 }
+                RemoveUpdatedItems = [...state.items]
+                RemoveUpdatedItems[RemoveExistingCartIemIndex] = updatedItem
+            }
+
+            return {
+                items: RemoveUpdatedItems,
+                totalAmount: RemoveUpdatedTotalAmount
+            }
 
         default:
             return defaultCartState
@@ -54,7 +75,7 @@ const CartProvider = props => {
     const removeItemFromCartHandler = id => {
         dispatchCartAction({
             type: 'REMOVE',
-            item: id
+            id: id
         })
     }
 
