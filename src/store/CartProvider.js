@@ -7,13 +7,15 @@ const defaultCartState = {
 }
 
 const cartReducer = (state, action) => {
+
     switch (action.type) {
         case 'ADD':
             const updatedItems = state.items.concat(action.item)
             const updatedTotalAmount = state.totalAmount + action.item.price * action.item.amount
+
             return {
                 items: updatedItems,
-                totalAlounts: updatedTotalAmount
+                totalAmount: updatedTotalAmount
             }
 
         default:
@@ -25,7 +27,7 @@ const cartReducer = (state, action) => {
 const CartProvider = props => {
 
     const [cartState, dispatchCartAction] = useReducer(cartReducer, defaultCartState)
-
+    //  console.log('cartState', cartState)
     const addItemToCartHandler = item => {
         dispatchCartAction({
             type: 'ADD',
@@ -41,7 +43,7 @@ const CartProvider = props => {
 
     const CartContextHelper = {
         items: cartState.items,
-        totalAlounts: cartState.totalAmount,
+        totalAmount: cartState.totalAmount,
         addItem: addItemToCartHandler,
         removeItem: removeItemFromCartHandler
     }

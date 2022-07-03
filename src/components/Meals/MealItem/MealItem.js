@@ -7,7 +7,7 @@ import MealItemForm from './MealItemForm'
 import CartContext from '../../../store/cartContext'
 
 const MealItem = (props) => {
-
+    // console.log('mealItem props: ', props)
     const cartCtx = useContext(CartContext)
 
     const price = `$${props.price.toFixed(2)}`
